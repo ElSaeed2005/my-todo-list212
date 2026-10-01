@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="pink">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>بلوسوم آند جلو | رفيقة العافية والروتين الصحي اليومي 🌸</title>
+  <meta name="description" content="تطبيق ويب أنثوي، ناعم ومتكامل للعافية اليومية. روتين إطالة الصباح للظهر والعضلات، مخطط وجبات صحية متوازن، تتبع شرب الماء والعادات الإيجابية.">
+  <meta name="theme-color" content="#F8C8DC">
+  
+  <!-- Google Fonts: Cairo & Amiri for Arabic, Playfair Display & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,400&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Canvas for Floating Petals and Confetti Celebrations -->
+  <canvas id="petal-canvas" aria-hidden="true"></canvas>
+
+  <div id="app" class="app-layout">
+    
+    <!-- DESKTOP SIDEBAR NAVIGATION (RTL) -->
+    <aside class="sidebar" id="sidebar" aria-label="القائمة الجانبية للتنقل">
+      <div class="sidebar-brand">
+        <div class="brand-icon-wrapper">
+          <span class="brand-flower-icon">🌸</span>
+        </div>
+        <div class="brand-text">
+          <h1 class="brand-title">بلوسوم<span class="brand-dot">&</span>جلو</h1>
+          <p class="brand-tagline">رفيقة عافيتكِ اليومية</p>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-tab="dashboard" id="nav-btn-dashboard">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </span>
+          <span class="nav-label">لوحة التحكم</span>
+          <span class="nav-badge" id="badge-tasks-count">0/8</span>
+        </button>
+
+        <button class="nav-item" data-tab="stretches" id="nav-btn-stretches">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4" r="2"/><path d="m18 19 1-7-6 1"/><path d="m5 8 3-3 5.5 3-2.36 3.5"/><path d="M4.24 14.5a5 5 0 0 0 6.88 6"/><path d="M13.76 17.5a5 5 0 0 0-6.88-6"/></svg>
+          </span>
+          <span class="nav-label">إطالات الصباح</span>
+          <span class="nav-pill">15 دقيقة</span>
+        </button>
+
+        <button class="nav-item" data-tab="meals" id="nav-btn-meals">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+          </span>
+          <span class="nav-label">مخطط الوجبات</span>
+        </button>
+
+        <button class="nav-item" data-tab="schedule" id="nav-btn-schedule">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+          </span>
+          <span class="nav-label">الجدول والروتين</span>
+        </button>
+
+        <button class="nav-item" data-tab="habits" id="nav-btn-habits">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          </span>
+          <span class="nav-label">العادات والأوسمة</span>
+          <span class="streak-mini-chip" id="sidebar-streak-chip">🔥 3</span>
+        </button>
+
+        <button class="nav-item" data-tab="settings" id="nav-btn-settings">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </span>
+          <span class="nav-label">الإعدادات</span>
+        </button>
+      </nav>
+
+      <!-- Sidebar Mini Hydration Widget -->
+      <div class="sidebar-hydration-card glass-card">
+        <div class="hydration-header">
+          <span class="hydration-icon">💧</span>
+          <div>
+            <h4 class="hydration-title">شرب الماء</h4>
+            <span class="hydration-count" id="sidebar-water-count">1250 / 2000 مل</span>
+          </div>
+        </div>
+        <div class="hydration-bar-track">
+          <div class="hydration-bar-fill" id="sidebar-water-bar" style="width: 62%;"></div>
+        </div>
+        <button class="btn-quick-sip" id="sidebar-quick-sip-btn" title="إضافة 250 مل ماء">
+          <span>+ رشفة ماء سريعة (250 مل)</span>
+        </button>
+      </div>
+
+      <!-- User mini profile info -->
+      <div class="sidebar-user">
+        <div class="user-avatar" id="sidebar-avatar">🌸</div>
+        <div class="user-details">
+          <span class="user-name" id="sidebar-user-name">صوفيا</span>
+          <span class="user-status">تتألقين اليوم ✨</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN APP CONTENT AREA -->
+    <main class="main-content" id="main-content">
+      
+      <!-- TOP HEADER (Always visible, responsive) -->
+      <header class="app-topbar">
+        <div class="topbar-left">
+          <div class="mobile-brand-title">بلوسوم آند جلو 🌸</div>
+          <p class="current-date-text" id="header-date">الخميس، 1 أكتوبر 2026</p>
+        </div>
+
+        <div class="topbar-right">
+          <!-- Notification Prompt Button -->
+          <button class="topbar-icon-btn" id="btn-notifications-toggle" title="التنبيهات والتذكيرات اللطيفة" aria-label="تبديل التنبيهات">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+            <span class="notif-dot" id="header-notif-dot"></span>
+          </button>
+
+          <!-- Sound Effects Toggle Button -->
+          <button class="topbar-icon-btn" id="btn-sound-toggle" title="رنين الأجراس الهادئة" aria-label="تبديل الصوت">
+            <svg id="sound-icon-on" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+            <svg id="sound-icon-off" class="hidden" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" x2="1" y1="1" y2="23"/><path d="M9 9v6"/></svg>
+          </button>
+
+          <!-- Theme Quick Switch -->
+          <button class="topbar-icon-btn" id="btn-theme-quick" title="تغيير ألوان المظهر" aria-label="تبديل المظهر">
+            <span>🎨</span>
+          </button>
+
+          <!-- Streak Badge in Topbar -->
+          <div class="streak-chip" id="topbar-streak-badge" title="أيام التتابع المستمر">
+            <span class="streak-flame">🔥</span>
+            <span class="streak-text" id="topbar-streak-num">3 أيام</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- ============================================== -->
+      <!-- TAB 1: DASHBOARD VIEW (الرئيسية)              -->
+      <!-- ============================================== -->
+      <section class="tab-pane active" id="pane-dashboard" aria-label="لوحة التحكم الرئيسية">
+        
+        <!-- Welcome Hero Banner -->
+        <div class="hero-welcome-card glass-card">
+          <div class="hero-content">
+            <div class="hero-pill">
+              <span class="sparkle-icon">✨</span>
+              <span id="hero-greeting-pill">واحتكِ الصباحية الدافئة</span>
+            </div>
+            <h2 class="hero-title" id="hero-greeting">صباح الخير يا جميلة! 🌸</h2>
+            <p class="hero-subtitle" id="hero-subtitle">
+              مستعدة لإيقاظ عمودكِ الفقري، تغذية جسدكِ بلطف، وبدء يوم مليء بالحيوية والإشراق؟
+            </p>
+            
+            <div class="hero-actions">
+              <button class="btn btn-primary" id="hero-start-workout-btn">
+                <span>ابدئي إطالات الصباح</span>
+                <span class="btn-arrow">←</span>
+              </button>
+              <button class="btn btn-secondary" id="hero-view-meals-btn">
+                <span>وجبات اليوم 🍓</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="hero-image-box">
+            <img src="assets/images/hero.jpg" alt="فتاة تمارس إطالات الصباح اللطيفة في غرفة نوم وردية مريحة" class="hero-banner-img" loading="eager">
+            <div class="hero-floating-tag">
+              <span class="pulse-dot"></span>
+              <span>15 دقيقة إطالة لطيفة للظهر</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Affirmation Quote Banner -->
+        <div class="quote-card glass-card">
+          <div class="quote-icon">❝</div>
+          <div class="quote-body">
+            <p class="quote-text" id="quote-text">
+              "عاملي جسدكِ بحب ورقة وصبر. أنتِ تزهرين وتتألقين في كل لحظة جديدة."
+            </p>
+            <span class="quote-author" id="quote-author">— همسة اليوم الإيجابية</span>
+          </div>
+          <button class="btn-quote-refresh" id="btn-quote-refresh" title="همسة إيجابية جديدة" aria-label="تحديث الاقتباس">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+          </button>
+        </div>
+
+        <!-- Dashboard Grid: Progress + Mascot + Next Activity -->
+        <div class="dashboard-grid">
+          
+          <!-- Column 1: Daily Progress & Animated Bloom Mascot -->
+          <div class="progress-mascot-card glass-card">
+            <div class="card-header">
+              <h3 class="card-title">التناغم اليومي</h3>
+              <span class="card-subtitle-badge" id="completion-ratio-badge">0 من 8 منجز</span>
+            </div>
+
+            <div class="progress-mascot-container">
+              <!-- Interactive SVG Radial Progress Ring -->
+              <div class="radial-ring-wrapper">
+                <svg class="progress-ring-svg" width="160" height="160" viewBox="0 0 160 160">
+                  <defs>
+                    <linearGradient id="pinkGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#EFA6C8" />
+                      <stop offset="100%" stop-color="#F8C8DC" />
+                    </linearGradient>
+                    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+                      <feGaussianBlur stdDeviation="3" result="blur" />
+                      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                    </filter>
+                  </defs>
+                  <!-- Background Track -->
+                  <circle class="ring-bg" cx="80" cy="80" r="68" stroke-width="12" fill="none" />
+                  <!-- Animated Progress Arc -->
+                  <circle class="ring-progress" id="dashboard-progress-circle" cx="80" cy="80" r="68" stroke-width="12" fill="none" stroke="url(#pinkGradient)" stroke-dasharray="427.26" stroke-dashoffset="427.26" stroke-linecap="round" filter="url(#softGlow)" />
+                </svg>
+
+                <!-- Cute Animated Blooming Mascot inside Ring -->
+                <div class="mascot-avatar-box" id="flower-mascot" title="اضغطي عليّ لغمزة لطيفة!">
+                  <div class="mascot-face-container" id="mascot-graphic">
+                    <!-- SVG Cute Flower Petals & Expressive Face -->
+                    <svg class="flower-svg" viewBox="0 0 100 100" width="80" height="80">
+                      <!-- Petals Group (grows and opens with progress) -->
+                      <g class="flower-petals-group" id="flower-petals">
+                        <circle cx="50" cy="20" r="14" fill="#F8C8DC" opacity="0.9" />
+                        <circle cx="78" cy="35" r="14" fill="#F8C8DC" opacity="0.9" />
+                        <circle cx="78" cy="68" r="14" fill="#F8C8DC" opacity="0.9" />
+                        <circle cx="50" cy="82" r="14" fill="#F8C8DC" opacity="0.9" />
+                        <circle cx="22" cy="68" r="14" fill="#F8C8DC" opacity="0.9" />
+                        <circle cx="22" cy="35" r="14" fill="#F8C8DC" opacity="0.9" />
+                      </g>
+                      <!-- Center Flower Core -->
+                      <circle cx="50" cy="50" r="24" fill="#FFF0F5" stroke="#EFA6C8" stroke-width="3" />
+                      <!-- Blush Cheeks -->
+                      <ellipse cx="40" cy="56" rx="4" ry="2.5" fill="#EFA6C8" opacity="0.75" />
+                      <ellipse cx="60" cy="56" rx="4" ry="2.5" fill="#EFA6C8" opacity="0.75" />
+                      <!-- Cute Eyes & Smiling Mouth -->
+                      <g id="mascot-eyes">
+                        <circle cx="42" cy="46" r="3.2" fill="#65465C" />
+                        <circle cx="58" cy="46" r="3.2" fill="#65465C" />
+                        <circle cx="43" cy="44.8" r="1" fill="#FFFFFF" />
+                        <circle cx="59" cy="44.8" r="1" fill="#FFFFFF" />
+                      </g>
+                      <path id="mascot-mouth" d="M 46 54 Q 50 58 54 54" fill="none" stroke="#65465C" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                  </div>
+                  <span class="mascot-speech-bubble" id="mascot-speech">مستعدة للإزهار! 🌸</span>
+                </div>
+              </div>
+
+              <div class="progress-stats-summary">
+                <div class="percentage-large" id="dashboard-progress-percent">0%</div>
+                <p class="progress-description" id="dashboard-progress-status">واصلي التألق يا جميلة!</p>
+                <div class="flower-stage-indicator" id="mascot-stage-text">المرحلة: برعم رقيق 🌱</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Column 2: Upcoming Activity Countdown & Hydration Quick Card -->
+          <div class="upcoming-hydration-column">
+            
+            <!-- Next Upcoming Activity Card -->
+            <div class="upcoming-activity-card glass-card">
+              <div class="card-header">
+                <span class="tag-live">المحطة القادمة</span>
+                <span class="tag-time" id="upcoming-time-tag">7:10 ص</span>
+              </div>
+              <div class="upcoming-body">
+                <div class="upcoming-icon-wrap" id="upcoming-icon">🧘‍♀️</div>
+                <div class="upcoming-info">
+                  <h4 class="upcoming-title" id="upcoming-title">الإحماء اللطيف للرقبة والكتفين</h4>
+                  <p class="upcoming-category" id="upcoming-desc">إيقاظ فقرات العنق وتحرير تيبس الصباح</p>
+                </div>
+              </div>
+              <div class="upcoming-footer">
+                <div class="countdown-chip">
+                  <span class="timer-icon">⏳</span>
+                  <span class="countdown-digits" id="upcoming-countdown">يبدأ خلال 00:15:30</span>
+                </div>
+                <button class="btn btn-sm btn-accent" id="upcoming-action-btn">ابدئي الآن</button>
+              </div>
+            </div>
+
+            <!-- Quick Habit Highlights -->
+            <div class="quick-habits-card glass-card">
+              <div class="card-header">
+                <h4 class="card-title">محطات العافية لليوم</h4>
+                <a href="#habits" class="link-more" id="link-to-habits">جميع العادات ←</a>
+              </div>
+              <div class="mini-habits-list">
+                <label class="mini-habit-item" data-habit-id="stretch">
+                  <input type="checkbox" id="check-quick-stretch">
+                  <span class="custom-checkbox"></span>
+                  <span class="mini-habit-name">إطالة الصباح للظهر (15 دقيقة)</span>
+                </label>
+                <label class="mini-habit-item" data-habit-id="water">
+                  <input type="checkbox" id="check-quick-water">
+                  <span class="custom-checkbox"></span>
+                  <span class="mini-habit-name">شرب 2,000 مل ماء نقي</span>
+                </label>
+                <label class="mini-habit-item" data-habit-id="breakfast">
+                  <input type="checkbox" id="check-quick-breakfast">
+                  <span class="custom-checkbox"></span>
+                  <span class="mini-habit-name">فطور التوت الصباحي المغذي</span>
+                </label>
+                <label class="mini-habit-item" data-habit-id="sleep">
+                  <input type="checkbox" id="check-quick-sleep">
+                  <span class="custom-checkbox"></span>
+                  <span class="mini-habit-name">الاسترخاء الهادئ قبل النوم</span>
+                </label>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Visual Daily Checklist & Routine Timeline -->
+        <div class="timeline-checklist-section glass-card">
+          <div class="section-header-flex">
+            <div>
+              <h3 class="section-title">تناغم وتدفق اليوم</h3>
+              <p class="section-subtitle">إيقاع هادئ ومريح للذهن، الظهر، والجسم</p>
+            </div>
+            <div class="timeline-filter-buttons">
+              <button class="filter-pill active" data-filter="all">الكل</button>
+              <button class="filter-pill" data-filter="stretch">الإطالات</button>
+              <button class="filter-pill" data-filter="meals">الوجبات</button>
+            </div>
+          </div>
+
+          <div class="daily-flow-timeline" id="dashboard-timeline-list">
+            <!-- Populated dynamically via JS -->
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ============================================== -->
+      <!-- TAB 2: MORNING STRETCHING ROUTINE (إطالات الصباح) -->
+      <!-- ============================================== -->
+      <section class="tab-pane" id="pane-stretches" aria-label="روتين إطالات الصباح">
+        
+        <!-- Stretching Header Hero with Safety Note -->
+        <div class="stretch-hero-card glass-card">
+          <div class="stretch-hero-left">
+            <span class="badge-soft">🌸 مرونة عضلات الظهر والعمود الفقري</span>
+            <h2 class="stretch-hero-title">روتين الصباح لإيقاظ الظهر والعمود الفقري</h2>
+            <p class="stretch-hero-desc">
+              15 دقيقة مهدئة ومريحة مصممة بعناية لتخفيف تيبس أسفل الظهر بعد الاستيقاظ، فتح الكتفين، وتعزيز مرونة العضلات بكل رقة وحب.
+            </p>
+            <div class="stretch-meta-pills">
+              <span class="meta-pill">⏱️ المدة: 15 دقيقة فقط</span>
+              <span class="meta-pill">🌱 المستوى: لطيف ومريح للجميع</span>
+              <span class="meta-pill">🛋️ الأدوات: بساط يوغا أو سجادة مريحة</span>
+            </div>
+            <div class="hero-actions-row">
+              <button class="btn btn-primary btn-lg" id="btn-launch-workout">
+                <span class="play-triangle">◀</span>
+                <span>ابدئي التمرين الموجه</span>
+              </button>
+              <button class="btn btn-secondary" id="btn-customize-stretches">
+                <span>⚙️ تخصيص أوقات التمارين</span>
+              </button>
+            </div>
+          </div>
+          
+          <div class="stretch-hero-right">
+            <div class="safety-alert-card">
+              <div class="safety-icon">💗</div>
+              <div class="safety-text">
+                <strong>تنبيه لطيف للسلامة والراحة:</strong>
+                <p>هذا الروتين مصمم للاسترخاء اللطيف ومرونة العضلات، ويجب أن تكون جميع الحركات مريحة وخالية تماماً من الألم. إذا شعرتِ بأي شد غير مريح، يمكنكِ التوقف أو تخطي الحركة بكل سهولة. هذا الروتين ليس علاجاً طبياً لحالات آلام الظهر الحادة أو المشخصة.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Exercise Routine Sequence List -->
+        <div class="exercise-list-container">
+          <div class="exercise-list-header">
+            <div>
+              <h3 class="section-title">تسلسل التمارين والفيديوهات التوضيحية</h3>
+              <p class="section-subtitle">شاهد الفيديوهات التوضيحية والشرح خطوة بخطوة لكل إطالة</p>
+            </div>
+            <span class="exercise-count-label" id="stretch-exercises-count">8 خطوات مريحة</span>
+          </div>
+
+          <div class="exercise-cards-grid" id="stretches-list-grid">
+            <!-- Dynamically populated from JS with Arabic titles, video preview, instructions, and video play modal trigger -->
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ============================================== -->
+      <!-- TAB 3: DAILY MEAL PLANNER (مخطط الوجبات)       -->
+      <!-- ============================================== -->
+      <section class="tab-pane" id="pane-meals" aria-label="مخطط الوجبات وشرب الماء">
+        
+        <!-- Meal Planner Header -->
+        <div class="meals-header-card glass-card">
+          <div class="meals-header-text">
+            <span class="badge-soft">🍓 غذي جسدكِ برقة وحب</span>
+            <h2 class="section-title">الوجبات اليومية الواعية ومحطة الماء</h2>
+            <p class="section-subtitle">
+              الوجبات الصحية تمنحكِ الطاقة والحيوية والتألق. بلا حميات قاسية أو حساب مرهق للسعرات—فقط أطعمة ملونة ومغذية تدعم عافيتكِ.
+            </p>
+          </div>
+
+          <!-- Weekly Day Picker -->
+          <div class="weekly-day-picker" id="meal-day-picker">
+            <button class="day-chip" data-day="0">الأحد</button>
+            <button class="day-chip active" data-day="1">الإثنين</button>
+            <button class="day-chip" data-day="2">الثلاثاء</button>
+            <button class="day-chip" data-day="3">الأربعاء</button>
+            <button class="day-chip" data-day="4">الخميس</button>
+            <button class="day-chip" data-day="5">الجمعة</button>
+            <button class="day-chip" data-day="6">السبت</button>
+          </div>
+        </div>
+
+        <!-- Hydration Tracker Showcase -->
+        <div class="hydration-showcase-card glass-card">
+          <div class="hydration-visual-col">
+            <!-- Animated Water Bottle with Bubbles -->
+            <div class="water-bottle-wrap">
+              <div class="water-bottle-cap"></div>
+              <div class="water-bottle-body">
+                <div class="water-fill" id="main-water-fill" style="height: 60%;">
+                  <div class="water-bubble b1"></div>
+                  <div class="water-bubble b2"></div>
+                  <div class="water-bubble b3"></div>
+                  <div class="water-wave"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hydration-details-col">
+            <div class="hydration-title-row">
+              <div>
+                <h3 class="card-title">الهدف اليومي لشرب الماء 💧</h3>
+                <p class="card-subtitle">يحافظ على نضارة بشرتكِ ومرونة فقرات ظهركِ</p>
+              </div>
+              <div class="hydration-target-badge" id="hydration-progress-text">
+                <strong id="water-current-text">1250</strong> / <span id="water-goal-text">2000</span> مل
+              </div>
+            </div>
+
+            <div class="water-glasses-grid" id="water-cups-container">
+              <!-- Render 8 clickable glass icons -->
+            </div>
+
+            <div class="hydration-controls-row">
+              <button class="btn btn-sm btn-secondary" id="btn-sub-water">- 250 مل</button>
+              <button class="btn btn-sm btn-primary" id="btn-add-glass">+ 250 مل (كوب)</button>
+              <button class="btn btn-sm btn-primary" id="btn-add-bottle">+ 500 مل (زجاجة)</button>
+              <button class="btn btn-sm btn-ghost" id="btn-edit-water-goal">تعديل الهدف ⚙️</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 Daily Meals Grid: Breakfast, Lunch, Dinner -->
+        <div class="meals-cards-grid" id="meals-cards-container">
+          <!-- Populated from JS: Breakfast, Lunch, Dinner Cards with Food Images, suggestions, edit, and completed checkbox -->
+        </div>
+
+      </section>
+
+      <!-- ============================================== -->
+      <!-- TAB 4: DAILY & WEEKLY SCHEDULE (الجدول والروتين) -->
+      <!-- ============================================== -->
+      <section class="tab-pane" id="pane-schedule" aria-label="الجدول والتقويم اليومي والأسبوعي">
+        <div class="schedule-header-card glass-card">
+          <div class="schedule-intro">
+            <span class="badge-soft">📅 إيقاع يومي متناغم</span>
+            <h2 class="section-title">المخطط الزمني والجدول اليومي</h2>
+            <p class="section-subtitle">
+              جدولكِ المتوازن يبقي صباحكِ هادئاً، وجباتكِ في وقتها، ومساءكِ مليئاً بالسكينة.
+            </p>
+          </div>
+          <div class="schedule-actions-row">
+            <div class="view-switch-tabs">
+              <button class="view-tab-btn active" id="btn-view-daily">الجدول اليومي</button>
+              <button class="view-tab-btn" id="btn-view-weekly">النظرة الأسبوعية</button>
+            </div>
+            <button class="btn btn-primary" id="btn-add-custom-activity">
+              <span>+ إضافة نشاط أو تذكير</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Daily Timeline View Container -->
+        <div class="schedule-timeline-card glass-card" id="schedule-daily-view">
+          <div class="timeline-day-selector">
+            <button class="btn-day-nav" id="btn-prev-day" title="اليوم السابق">▶</button>
+            <h3 class="current-selected-day-label" id="current-selected-day-label">جدول ومحطات اليوم</h3>
+            <button class="btn-day-nav" id="btn-next-day" title="اليوم التالي">◀</button>
+          </div>
+
+          <div class="full-timeline-wrapper" id="full-schedule-timeline">
+            <!-- Full hour-by-hour timeline items generated dynamically -->
+          </div>
+        </div>
+
+        <!-- Weekly Calendar Grid Container (Hidden by default, toggleable) -->
+        <div class="schedule-weekly-card glass-card hidden" id="schedule-weekly-view">
+          <div class="weekly-matrix-grid" id="weekly-matrix-grid">
+            <!-- 7 columns for Monday to Sunday -->
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ============================================== -->
+      <!-- TAB 5: HABIT TRACKER & BADGES (العادات والأوسمة) -->
+      <!-- ============================================== -->
+      <section class="tab-pane" id="pane-habits" aria-label="متتبع العادات والأوسمة">
+        
+        <!-- Habit Tracker Header & Streak Hero -->
+        <div class="habits-hero-card glass-card">
+          <div class="habits-hero-stats">
+            <div class="streak-stat-box">
+              <span class="streak-big-flame">🔥</span>
+              <div class="streak-stat-info">
+                <span class="streak-number" id="habits-streak-counter">3</span>
+                <span class="streak-label">أيام إشراق متواصلة</span>
+              </div>
+            </div>
+
+            <div class="streak-encouragement">
+              <h3 class="encouragement-title">أنتِ تبدعين بكل روعة! 🌸</h3>
+              <p class="encouragement-text">
+                الاستمرارية هي فعل حب وتقدير لجسمكِ وعافيتكِ. إذا فاتتكِ عادة ما، لا داعي للقلق أبداً—كل لحظة جديدة هي فرصة جديدة للإزهار والتألق!
+              </p>
+            </div>
+
+            <div class="habits-action-corner">
+              <button class="btn btn-secondary" id="btn-add-custom-habit">+ عادة جديدة</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7-Day Habit Matrix Table -->
+        <div class="habits-matrix-card glass-card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">مصفوفة العادات الأسبوعية</h3>
+              <p class="card-subtitle">انقري على النقاط لتسجيل إنجاز كل عادة خلال أيام الأسبوع</p>
+            </div>
+            <div class="habit-legend">
+              <span class="legend-item"><span class="legend-dot completed"></span> تم الإنجاز</span>
+              <span class="legend-item"><span class="legend-dot pending"></span> مخطط له</span>
+            </div>
+          </div>
+
+          <div class="matrix-table-wrapper">
+            <table class="habit-table" id="habits-matrix-table">
+              <thead>
+                <tr>
+                  <th class="col-habit-name">العادة اليومية</th>
+                  <th>الإثنين</th>
+                  <th>الثلاثاء</th>
+                  <th>الأربعاء</th>
+                  <th>الخميس</th>
+                  <th>الجمعة</th>
+                  <th>السبت</th>
+                  <th>الأحد</th>
+                  <th class="col-habit-rate">النسبة</th>
+                </tr>
+              </thead>
+              <tbody id="habits-table-body">
+                <!-- Dynamically populated from JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Achievement Badges Section -->
+        <div class="badges-section glass-card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">أوسمة ومحطات العافية 🏅</h3>
+              <p class="card-subtitle">احتفلي بكل خطوة لطيفة وصادقة في رحلتكِ</p>
+            </div>
+            <span class="badges-unlock-counter" id="badges-unlocked-count">4 من 7 مفتوحة</span>
+          </div>
+
+          <div class="badges-grid" id="badges-container">
+            <!-- Badges populated dynamically with unlock status, progress bars, and glowing animations -->
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ============================================== -->
+      <!-- TAB 6: SETTINGS & PERSONALIZATION (الإعدادات)  -->
+      <!-- ============================================== -->
+      <section class="tab-pane" id="pane-settings" aria-label="الإعدادات والتخصيص">
+        <div class="settings-card glass-card">
+          <div class="card-header">
+            <div>
+              <h2 class="section-title">الإعدادات والتخصيص ⚙️</h2>
+              <p class="section-subtitle">خصصي واحتكِ لتتناسب تماماً مع جدولكِ وإيقاعكِ الشخصي</p>
+            </div>
+          </div>
+
+          <form id="settings-form" class="settings-form" onsubmit="event.preventDefault();">
+            
+            <!-- User Profile Group -->
+            <div class="settings-group">
+              <h3 class="group-title">🌸 الملف الشخصي</h3>
+              <div class="form-row">
+                <label for="setting-name" class="form-label">اسمكِ المفضل</label>
+                <input type="text" id="setting-name" class="form-input" value="صوفيا" placeholder="اكتبي اسمكِ هنا">
+              </div>
+            </div>
+
+            <!-- Routine Timing Preferences -->
+            <div class="settings-group">
+              <h3 class="group-title">⏰ مواعيد الروتين اليومي</h3>
+              <div class="form-grid">
+                <div class="form-row">
+                  <label for="setting-wakeup-time" class="form-label">وقت الاستيقاظ وشرب الماء</label>
+                  <input type="time" id="setting-wakeup-time" class="form-input" value="07:00">
+                </div>
+                <div class="form-row">
+                  <label for="setting-stretch-time" class="form-label">وقت بدء إطالات الصباح</label>
+                  <input type="time" id="setting-stretch-time" class="form-input" value="07:10">
+                </div>
+                <div class="form-row">
+                  <label for="setting-breakfast-time" class="form-label">وقت وجبة الفطور</label>
+                  <input type="time" id="setting-breakfast-time" class="form-input" value="08:00">
+                </div>
+                <div class="form-row">
+                  <label for="setting-lunch-time" class="form-label">وقت وجبة الغداء</label>
+                  <input type="time" id="setting-lunch-time" class="form-input" value="14:00">
+                </div>
+                <div class="form-row">
+                  <label for="setting-dinner-time" class="form-label">وقت وجبة العشاء</label>
+                  <input type="time" id="setting-dinner-time" class="form-input" value="20:00">
+                </div>
+                <div class="form-row">
+                  <label for="setting-water-goal" class="form-label">الهدف اليومي للماء (مل)</label>
+                  <input type="number" id="setting-water-goal" class="form-input" value="2000" step="100" min="1000" max="4000">
+                </div>
+              </div>
+            </div>
+
+            <!-- Aesthetics & Themes -->
+            <div class="settings-group">
+              <h3 class="group-title">🎨 السمة والألوان الأنثوية</h3>
+              <div class="theme-options-grid">
+                
+                <label class="theme-card-option">
+                  <input type="radio" name="app-theme" value="pink" checked>
+                  <div class="theme-preview-card pink-preview">
+                    <div class="theme-dots">
+                      <span style="background: #F8C8DC;"></span>
+                      <span style="background: #EFA6C8;"></span>
+                      <span style="background: #65465C;"></span>
+                    </div>
+                    <span class="theme-name">الوردي الناعم (كلاسيكي)</span>
+                  </div>
+                </label>
+
+                <label class="theme-card-option">
+                  <input type="radio" name="app-theme" value="lavender">
+                  <div class="theme-preview-card lavender-preview">
+                    <div class="theme-dots">
+                      <span style="background: #E6D9F2;"></span>
+                      <span style="background: #B89FD9;"></span>
+                      <span style="background: #48385E;"></span>
+                    </div>
+                    <span class="theme-name">حلم اللافندر (بنفسجي هادئ)</span>
+                  </div>
+                </label>
+
+                <label class="theme-card-option">
+                  <input type="radio" name="app-theme" value="rose">
+                  <div class="theme-preview-card rose-preview">
+                    <div class="theme-dots">
+                      <span style="background: #FAD4D8;"></span>
+                      <span style="background: #D48896;"></span>
+                      <span style="background: #593641;"></span>
+                    </div>
+                    <span class="theme-name">توهج الورد (دافئ)</span>
+                  </div>
+                </label>
+
+              </div>
+            </div>
+
+            <!-- Notifications & Audio -->
+            <div class="settings-group">
+              <h3 class="group-title">🔔 التنبيهات والتذكيرات اللطيفة</h3>
+              
+              <div class="toggle-option-row">
+                <div class="toggle-info">
+                  <strong>إشعارات المتصفح</strong>
+                  <p>استلمي تنبيهات لطيفة لوقت التمارين والوجبات أثناء فتح التطبيق</p>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="setting-notifications-toggle">
+                  <span class="slider round"></span>
+                </label>
+              </div>
+
+              <div class="toggle-option-row">
+                <div class="toggle-info">
+                  <strong>رنين الأجراس الهادئة</strong>
+                  <p>تشغيل نغمات كريستالية مريحة عند انتهاء المؤقت وإكمال المهام</p>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="setting-sound-toggle" checked>
+                  <span class="slider round"></span>
+                </label>
+              </div>
+
+              <div class="toggle-option-row">
+                <div class="toggle-info">
+                  <strong>تساقط بتلات الزهور المتحركة</strong>
+                  <p>بتلات ورد ساكورا ناعمة تطفو بلطف في خلفية الشاشة</p>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="setting-petals-toggle" checked>
+                  <span class="slider round"></span>
+                </label>
+              </div>
+
+              <div class="notification-test-row">
+                <button type="button" class="btn btn-secondary btn-sm" id="btn-test-notification">
+                  🔔 تجربة تنبيه فوري
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm" id="btn-request-browser-notif">
+                  🌐 تفعيل إذن إشعارات المتصفح
+                </button>
+              </div>
+            </div>
+
+            <!-- Data & Progress Reset -->
+            <div class="settings-group danger-group">
+              <h3 class="group-title">✨ إدارة البيانات</h3>
+              <p class="group-desc">جميع بياناتكِ محفوظة بأمان داخل ذاكرة متصفحكِ المحلية.</p>
+              
+              <div class="danger-actions-row">
+                <button type="button" class="btn btn-secondary" id="btn-reset-today">
+                  🔄 إعادة تعيين إنجاز اليوم
+                </button>
+                <button type="button" class="btn btn-ghost" id="btn-restore-defaults">
+                  🌸 استعادة الخطة الافتراضية
+                </button>
+              </div>
+            </div>
+
+            <div class="form-actions-save">
+              <button type="button" class="btn btn-primary btn-lg" id="btn-save-settings">
+                💾 حفظ التفضيلات
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ============================================== -->
+    <!-- MOBILE BOTTOM NAVIGATION (RTL)                -->
+    <!-- ============================================== -->
+    <nav class="mobile-bottom-nav" id="mobile-nav" aria-label="شريط التنقل السفلي للهواتف">
+      <button class="mobile-nav-btn active" data-tab="dashboard">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>الرئيسية</span>
+      </button>
+
+      <button class="mobile-nav-btn" data-tab="stretches">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="4" r="2"/><path d="m18 19 1-7-6 1"/><path d="m5 8 3-3 5.5 3-2.36 3.5"/><path d="M4.24 14.5a5 5 0 0 0 6.88 6"/><path d="M13.76 17.5a5 5 0 0 0-6.88-6"/></svg>
+        <span>الإطالات</span>
+      </button>
+
+      <button class="mobile-nav-btn" data-tab="meals">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+        <span>الوجبات</span>
+      </button>
+
+      <button class="mobile-nav-btn" data-tab="schedule">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+        <span>الجدول</span>
+      </button>
+
+      <button class="mobile-nav-btn" data-tab="habits">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        <span>العادات</span>
+      </button>
+
+      <button class="mobile-nav-btn" data-tab="settings">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span>الإعدادات</span>
+      </button>
+    </nav>
+
+  </div><!-- /#app -->
+
+  <!-- ============================================== -->
+  <!-- MODAL 1: INTERACTIVE WORKOUT PLAYER           -->
+  <!-- ============================================== -->
+  <div class="modal-overlay hidden" id="modal-workout-player" role="dialog" aria-modal="true">
+    <div class="modal-container workout-player-modal">
+      <div class="player-topbar">
+        <span class="player-step-indicator" id="player-step-indicator">التمرين 1 من 8</span>
+        <button class="modal-close-btn" id="btn-close-player" aria-label="إغلاق مشغل التمرين">✕</button>
+      </div>
+
+      <div class="player-body">
+        
+        <!-- Toggle: Animated Breathing Pose vs Video Demonstration -->
+        <div class="player-view-mode-tabs">
+          <button class="player-mode-tab active" id="tab-mode-pose">🧘‍♀️ وضعية التمرين مع التنفس</button>
+          <button class="player-mode-tab" id="tab-mode-video">🎬 فيديو الشرح التوضيحي</button>
+        </div>
+
+        <!-- Mode A: Animated Pose & Breathing Demonstration -->
+        <div class="player-pose-stage" id="player-stage-pose">
+          <div class="pose-breathing-ring" id="player-breathing-ring"></div>
+          
+          <div class="player-pose-graphic" id="player-pose-graphic">
+            <!-- Dynamic SVG illustration for the current stretch pose -->
+          </div>
+
+          <div class="breathing-cue" id="player-breath-cue">شهيق عميق بهدوء...</div>
+        </div>
+
+        <!-- Mode B: Video Demonstration Player inside Workout -->
+        <div class="player-video-stage hidden" id="player-stage-video">
+          <div class="video-responsive-wrap">
+            <iframe id="player-video-iframe" src="" title="فيديو توضيحي للتمرين" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+          <div class="video-stage-caption" id="player-video-caption">فيديو توضيحي لأداء الحركة بشكل سليم</div>
+        </div>
+
+        <!-- Exercise Titles in Arabic and English -->
+        <div class="player-exercise-header">
+          <h2 class="player-title-ar" id="player-title-ar">تمدد القطة والبقرة</h2>
+          <h3 class="player-title-en" id="player-title-en">Cat-Cow Stretch</h3>
+          <p class="player-instruction" id="player-instruction">
+            على يديكِ وركبتيكِ، خذي شهيقاً عميقاً وقوسي ظهركِ برفق لأسفل مع النظر للأعلى، ثم أخرجي الزفير وقوسي عمودكِ الفقري للأعلى مثل القطة المتمددة.
+          </p>
+        </div>
+
+        <!-- Large Circular Countdown Timer -->
+        <div class="player-timer-box">
+          <svg class="timer-svg" width="180" height="180" viewBox="0 0 180 180">
+            <circle class="timer-bg-track" cx="90" cy="90" r="80" stroke-width="8" fill="none" />
+            <circle class="timer-bar-fill" id="player-timer-circle" cx="90" cy="90" r="80" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="502.65" stroke-dashoffset="0" />
+          </svg>
+          <div class="timer-digits-wrap">
+            <span class="timer-time" id="player-timer-display">02:00</span>
+            <span class="timer-sublabel" id="player-timer-status">إطالة لطيفة ومريحة</span>
+          </div>
+        </div>
+
+        <!-- Player Controls (RTL: next on left, prev on right) -->
+        <div class="player-controls-row">
+          <button class="btn-player-nav" id="btn-player-next" title="التمرين التالي">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5" stroke="currentColor" stroke-width="2"/></svg>
+          </button>
+
+          <button class="btn-player-main" id="btn-player-playpause" title="تشغيل أو إيقاف مؤقت">
+            <span id="player-play-icon" class="hidden">◀</span>
+            <span id="player-pause-icon">⏸</span>
+          </button>
+
+          <button class="btn-player-nav" id="btn-player-prev" title="التمرين السابق">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19" stroke="currentColor" stroke-width="2"/></svg>
+          </button>
+        </div>
+
+        <div class="player-bottom-actions">
+          <button class="btn btn-ghost btn-sm" id="btn-player-skip">تخطي هذا التمرين</button>
+          <button class="btn btn-ghost btn-sm" id="btn-player-mark-done">إكمال الروتين بالكامل 🌸</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL 2: STANDALONE EXERCISE VIDEO DEMO MODAL -->
+  <!-- ============================================== -->
+  <div class="modal-overlay hidden" id="modal-exercise-video" role="dialog" aria-modal="true">
+    <div class="modal-container video-demo-modal">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title" id="demo-video-title">فيديو توضيحي للتمرين</h3>
+          <span class="modal-subtitle-text" id="demo-video-subtitle">طريقة الأداء الصحيحة والآمنة للظهر</span>
+        </div>
+        <button class="modal-close-btn" id="btn-close-demo-video" aria-label="إغلاق الفيديو">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="video-responsive-wrap">
+          <iframe id="standalone-video-iframe" src="" title="فيديو توضيحي للتمرين" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+
+        <div class="video-instructions-card">
+          <h4 class="video-inst-title">💡 نصائح لضمان أقصى استفادة وأمان لظهركِ:</h4>
+          <ul class="video-tips-list" id="demo-video-tips">
+            <li>تنفسي ببطء وعمق وتجنبي حبس أنفاسكِ أثناء الإطالة.</li>
+            <li>تحركي بسلاسة وبدون أي حركات مفاجئة أو ارتدادية سريعة.</li>
+            <li>يجب أن تشعري بإحساس تمدد دافئ ولطيف وليس بألم حاد.</li>
+          </ul>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-primary" id="btn-start-from-video">
+            <span>ابدئي هذا التمرين في المؤقت ⏱️</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL 3: EDIT MEAL MODAL (تعديل الوجبة)        -->
+  <!-- ============================================== -->
+  <div class="modal-overlay hidden" id="modal-edit-meal" role="dialog" aria-modal="true">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title" id="edit-meal-title">تعديل الوجبة الغذائية</h3>
+        <button class="modal-close-btn" id="btn-close-edit-meal">✕</button>
+      </div>
+      
+      <form id="form-edit-meal" class="modal-form">
+        <input type="hidden" id="edit-meal-id">
+
+        <div class="form-row">
+          <label for="edit-meal-name" class="form-label">اسم الوجبة</label>
+          <input type="text" id="edit-meal-name" class="form-input" required>
+        </div>
+
+        <div class="form-row">
+          <label for="edit-meal-time" class="form-label">الموعد المحدد</label>
+          <input type="time" id="edit-meal-time" class="form-input" required>
+        </div>
+
+        <div class="form-row">
+          <label for="edit-meal-category" class="form-label">التصنيف</label>
+          <select id="edit-meal-category" class="form-input">
+            <option value="فطور حيوي ونشط">فطور حيوي ونشط</option>
+            <option value="غداء طازج ومغذي">غداء طازج ومغذي</option>
+            <option value="عشاء خفيف ومريح">عشاء خفيف ومريح</option>
+            <option value="سناك خفيف وصحي">سناك خفيف وصحي</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label for="edit-meal-items" class="form-label">المقترحات والمكونات (مفصولة بفواصل)</label>
+          <textarea id="edit-meal-items" class="form-textarea" rows="3" placeholder="مثال: وعاء أساي بالتوت، بذور الشيا، شرائح موز، ماء دافئ بالنعناع"></textarea>
+        </div>
+
+        <div class="form-row">
+          <label for="edit-meal-notes" class="form-label">ملاحظاتكِ الشخصية أو فكرة للوصفة</label>
+          <input type="text" id="edit-meal-notes" class="form-input" placeholder="مثال: الاستمتاع بها بجوار النافذة في الصباح">
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" id="btn-cancel-meal">إلغاء</button>
+          <button type="submit" class="btn btn-primary">حفظ التعديلات</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL 4: ADD/EDIT ACTIVITY / REMINDER         -->
+  <!-- ============================================== -->
+  <div class="modal-overlay hidden" id="modal-activity" role="dialog" aria-modal="true">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title" id="activity-modal-title">إضافة نشاط إلى الجدول</h3>
+        <button class="modal-close-btn" id="btn-close-activity-modal">✕</button>
+      </div>
+
+      <form id="form-activity" class="modal-form">
+        <input type="hidden" id="activity-id">
+
+        <div class="form-row">
+          <label for="activity-name" class="form-label">عنوان النشاط</label>
+          <input type="text" id="activity-name" class="form-input" placeholder="مثال: استراحة شاي الورد والتنفس الهادئ" required>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-row">
+            <label for="activity-time" class="form-label">الموعد</label>
+            <input type="time" id="activity-time" class="form-input" value="16:00" required>
+          </div>
+          <div class="form-row">
+            <label for="activity-category" class="form-label">التصنيف</label>
+            <select id="activity-category" class="form-input">
+              <option value="عناية بالذات">عناية بالذات 🌸</option>
+              <option value="إطالة">إطالة ومرونة 🧘‍♀️</option>
+              <option value="وجبة">وجبة طعام 🍓</option>
+              <option value="شرب ماء">شرب ماء 💧</option>
+              <option value="راحة واسترخاء">راحة واسترخاء 🌙</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label for="activity-notes" class="form-label">تذكير أو همسة لطيفة</label>
+          <input type="text" id="activity-notes" class="form-input" placeholder="مثال: خذي 5 أنفاس عميقة وابتسمي لقلبكِ">
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" id="btn-cancel-activity">إلغاء</button>
+          <button type="submit" class="btn btn-primary">حفظ النشاط</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL 5: CUSTOMIZE STRETCHES MODAL            -->
+  <!-- ============================================== -->
+  <div class="modal-overlay hidden" id="modal-customize-stretches" role="dialog" aria-modal="true">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title">تخصيص أوقات روتين الإطالة الصباحي</h3>
+        <button class="modal-close-btn" id="btn-close-customize-modal">✕</button>
+      </div>
+      <div class="modal-body-scroll">
+        <p class="modal-intro-text">
+          يمكنكِ تعديل مدة كل إطالة بالثواني بما يناسب راحة ظهركِ وعضلاتكِ وجدولكِ الصباحي.
+        </p>
+        <div id="customize-stretch-items" class="customize-list">
+          <!-- Populated from JS -->
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" id="btn-reset-stretch-durations">استعادة المدد الأصلية</button>
+        <button type="button" class="btn btn-primary" id="btn-save-custom-stretches">حفظ الروتين</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL 6: CELEBRATION MODAL                     -->
+  <!-- ============================================== -->
+  <div class="modal-overlay hidden" id="modal-celebration" role="dialog" aria-modal="true">
+    <div class="modal-container celebration-modal text-center">
+      <div class="celebration-flower-sparkle">🌸✨💖</div>
+      <h2 class="celebration-title" id="celebration-title">أحسنتِ صنعاً يا جميلة!</h2>
+      <p class="celebration-message" id="celebration-msg">
+        عمودكِ الفقري يشعر بالحرية والخفة، عضلاتكِ دافئة ومرنة، وروحكِ المتألقة مستعدة ليوم استثنائي ومليء بالسلام.
+      </p>
+      <div class="celebration-stats-pill">
+        <span>+15 دقيقة حركة واعية ومرونة للظهر</span>
+      </div>
+      <button class="btn btn-primary btn-lg" id="btn-celebration-close">
+        واصلي التألق والإشراق ✨
+      </button>
+    </div>
+  </div>
+
+  <!-- In-App Toast Notification Banner -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
